@@ -11,22 +11,22 @@ import {
     AVOID_THRESHOLD,
     BACKGROUND,
     QTREE_CAP,
-    DEBUG
+    DEBUG,
+    AGENT_RADIUS
 } from './config';
 import { RGB } from './types';
 
 const RED = [255, 0, 0] as RGB;
 
 const sketch = (s: p5) => {
-    const fullFieldRect = new Rect(0, 0, WIDTH, HEIGHT);
-
     const agents: Agent[] = [];
-    const qtree = new QTree<Agent>(QTREE_CAP, fullFieldRect);
+    const qtree = new QTree<Agent>(QTREE_CAP, new Rect(0, 0, WIDTH, HEIGHT));
 
     const circleDrawer = new CircleDrawer(s);
     const rectDrawer = new RectDrawer(s);
 
     s.setup = () => {
+        s.noCursor();
         s.createCanvas(WIDTH, HEIGHT);
 
         for (let i = 0; i < NAGENTS; i++) {
@@ -40,7 +40,7 @@ const sketch = (s: p5) => {
             );
 
             const mover = new Mover(pos, vel);
-            const agent = new Agent(mover, circleDrawer);
+            const agent = new Agent(AGENT_RADIUS, mover, circleDrawer);
 
             agents.push(agent);
             qtree.insert(agent);
@@ -62,20 +62,21 @@ const sketch = (s: p5) => {
         const found = qtree.queryRange(queryRect)
 
         // draw phase
+        if (DEBUG) {
+            // qtree.debug(s);
+            s.noStroke();
+            s.textSize(16);
+            s.fill(255);
+            s.text(s.frameRate().toFixed(2), 10, 30);
+            s.text(found.length, 10, 50);
+        }
+
         for (const agent of agents) {
             agent.draw();
         }
 
         for (const foundAgent of found) {
             foundAgent.highlight();
-        }
-
-        if (DEBUG) {
-            // qtree.debug(s);
-            s.textSize(16);
-            s.fill(255);
-            s.text(s.frameRate().toFixed(2), 10, 30);
-            s.text(found.length, 10, 50);
         }
 
         rectDrawer.draw(queryRect, RED)

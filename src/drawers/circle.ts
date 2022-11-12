@@ -8,9 +8,9 @@ export class CircleDrawer {
         this.#s = s;
     }
 
-    draw(pos: Vector, d: number, color: RGB) {
+    draw(pos: Vector, r: number, color: RGB) {
         this.#s.noStroke();
         this.#s.fill(color);
-        this.#s.circle(pos.x, pos.y, d)
+        this.#s.circle(pos.x, pos.y, r * 2)
     }
 }

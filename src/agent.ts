@@ -1,16 +1,28 @@
 import { Vector } from 'p5';
 import { Mover } from './mover';
 import { CircleDrawer } from './drawers';
-import { AGENT_COLOR, AGENT_DIAMETER, AGENT_HIGHLIGHT_COLOR, AVOID_THRESHOLD, HEIGHT, WIDTH } from './config';
 import { WithPosition } from './types';
+import {
+    AGENT_COLOR,
+    AGENT_HIGHLIGHT_COLOR,
+    AVOID_THRESHOLD,
+    HEIGHT,
+    WIDTH
+} from './config';
 
 export class Agent implements WithPosition {
+    #r: number;
     #mover: Mover;
     #circleDrawer: CircleDrawer;
 
-    constructor(mover: Mover, circleDrawer: CircleDrawer) {
+    constructor(r: number, mover: Mover, circleDrawer: CircleDrawer) {
+        this.#r = r;
         this.#mover = mover;
         this.#circleDrawer = circleDrawer;
+    }
+
+    get pos(): Vector {
+        return this.#mover.pos
     }
 
     update() {
@@ -19,15 +31,11 @@ export class Agent implements WithPosition {
     }
 
     draw() {
-        this.#circleDrawer.draw(this.#mover.pos, AGENT_DIAMETER, AGENT_COLOR);
-    }
-
-    get pos(): Vector {
-        return this.#mover.pos
+        this.#circleDrawer.draw(this.#mover.pos, this.#r, AGENT_COLOR);
     }
 
     highlight() {
-        this.#circleDrawer.draw(this.#mover.pos, AGENT_DIAMETER, AGENT_HIGHLIGHT_COLOR);
+        this.#circleDrawer.draw(this.#mover.pos, this.#r, AGENT_HIGHLIGHT_COLOR);
     }
 
     #avoidBoundary() {
