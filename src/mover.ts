@@ -1,6 +1,7 @@
 import { Vector } from "p5";
+import { WithPosition } from "./types";
 
-export class Mover {
+export class Mover implements WithPosition {
     #pos: Vector;
     #vel: Vector;
     #acc: Vector;
