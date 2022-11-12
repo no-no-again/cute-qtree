@@ -9,16 +9,20 @@ import {
     WIDTH,
     HEIGHT,
     BACKGROUND,
-    NAGENTS,
-    AGENT_RADIUS,
+    N_AGENTS,
     AVOID_THRESHOLD,
     QTREE_CAP,
     QTREE_VISIBLE,
+    AGENT_SPEED,
+    AGENT_RADIUS,
+    AGENT_NEAR_RANGE_COLOR,
+    AGENT_NEAR_RANGE_VISIBLE,
     QUERY_RANGE_COLOR,
     QUERY_RANGE_WIDTH,
     QUERY_RANGE_HEIGHT,
     QUERY_RANGE_VISIBLE,
 } from './config';
+import { WHITE } from './colors';
 
 const debugInfo = document.querySelector('.debug-info')!;
 
@@ -33,14 +37,14 @@ const sketch = (s: p5) => {
         s.noCursor();
         s.createCanvas(WIDTH, HEIGHT);
 
-        for (let i = 0; i < NAGENTS; i++) {
+        for (let i = 0; i < N_AGENTS; i++) {
             const pos = new Vector(
-                s.random(AVOID_THRESHOLD, WIDTH - AVOID_THRESHOLD),
-                s.random(AVOID_THRESHOLD, HEIGHT - AVOID_THRESHOLD)
+                s.random(AVOID_THRESHOLD + AGENT_RADIUS, WIDTH - AVOID_THRESHOLD - AGENT_RADIUS),
+                s.random(AVOID_THRESHOLD + AGENT_RADIUS, HEIGHT - AVOID_THRESHOLD - AGENT_RADIUS)
             );
             const vel = new Vector(
-                s.random(-1, 1),
-                s.random(-1, 1)
+                s.random(-AGENT_SPEED, AGENT_SPEED),
+                s.random(-AGENT_SPEED, AGENT_SPEED)
             );
 
             const mover = new Mover(pos, vel);
@@ -65,6 +69,7 @@ const sketch = (s: p5) => {
 
         for (const agent of agents) {
             agent.update();
+            agent.checkBoundaryCollision();
             qtree.insert(agent);
         }
 
@@ -87,11 +92,11 @@ const sketch = (s: p5) => {
             agent.draw();
         }
 
+        if (QUERY_RANGE_VISIBLE) {
         for (const foundAgent of found) {
             foundAgent.highlight();
         }
 
-        if (QUERY_RANGE_VISIBLE) {
             rectDrawer.draw(queryRect, QUERY_RANGE_COLOR)
         }
     }

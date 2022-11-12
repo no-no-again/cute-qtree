@@ -21,13 +21,16 @@ export class Agent implements WithPosition {
         this.#circleDrawer = circleDrawer;
     }
 
+    get r(): number {
+        return this.#r;
+    }
+
     get pos(): Vector {
         return this.#mover.pos
     }
 
     update() {
         this.#mover.step();
-        this.#avoidBoundary();
     }
 
     draw() {
@@ -38,24 +41,24 @@ export class Agent implements WithPosition {
         this.#circleDrawer.draw(this.#mover.pos, this.#r, AGENT_HIGHLIGHT_COLOR);
     }
 
-    #avoidBoundary() {
+    checkBoundaryCollision() {
         const { x, y } = this.#mover.pos;
         const { x: vx, y: vy } = this.#mover.vel;
 
-        if (x <= AVOID_THRESHOLD) {
-            this.#mover.pos = new Vector(AVOID_THRESHOLD, y);
+        if (x <= AVOID_THRESHOLD + this.r) {
+            this.#mover.pos = new Vector(AVOID_THRESHOLD + this.r, y);
             this.#mover.vel = new Vector(vx * -1, vy);
         }
-        if (x >= WIDTH - AVOID_THRESHOLD) {
-            this.#mover.pos = new Vector(WIDTH - AVOID_THRESHOLD, y);
+        if (x >= WIDTH - AVOID_THRESHOLD - this.r) {
+            this.#mover.pos = new Vector(WIDTH - AVOID_THRESHOLD - this.r, y);
             this.#mover.vel = new Vector(vx * -1, vy);
         }
-        if (y <= AVOID_THRESHOLD) {
-            this.#mover.pos = new Vector(x, AVOID_THRESHOLD);
+        if (y <= AVOID_THRESHOLD + this.r) {
+            this.#mover.pos = new Vector(x, AVOID_THRESHOLD + this.r);
             this.#mover.vel = new Vector(vx, vy * -1);
         }
-        if (y >= HEIGHT - AVOID_THRESHOLD) {
-            this.#mover.pos = new Vector(x, HEIGHT - AVOID_THRESHOLD);
+        if (y >= HEIGHT - AVOID_THRESHOLD - this.r) {
+            this.#mover.pos = new Vector(x, HEIGHT - AVOID_THRESHOLD - this.r);
             this.#mover.vel = new Vector(vx, vy * -1);
         }
     }
