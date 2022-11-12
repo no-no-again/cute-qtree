@@ -1,12 +1,8 @@
 import p5, { Vector } from 'p5';
 import { Agent } from './agent';
-import { CircleDrawer } from './drawers';
 import { Mover } from './mover';
-
-const WIDTH = 400;
-const HEIGHT = 400;
-const BACKGROUND = 0;
-const NAGENTS = 100;
+import { CircleDrawer } from './drawers';
+import { BACKGROUND, HEIGHT, NAGENTS, WIDTH } from './config';
 
 const sketch = (s: p5) => {
     const agents: Agent[] = [];
