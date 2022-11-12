@@ -17,7 +17,7 @@ export class QTree<T extends WithPosition>  {
     }
 
     insert(entry: T): boolean {
-        if (!this.#boundary.contains(entry.pos())) {
+        if (!this.#boundary.contains(entry.pos)) {
             return false;
         }
 
@@ -47,7 +47,7 @@ export class QTree<T extends WithPosition>  {
         }
 
         for (const entry of this.#entries) {
-            if (range.contains(entry.pos())) {
+            if (range.contains(entry.pos)) {
                 found.push(entry);
             }
         }

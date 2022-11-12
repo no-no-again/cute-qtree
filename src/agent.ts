@@ -19,19 +19,19 @@ export class Agent implements WithPosition {
     }
 
     draw() {
-        this.#circleDrawer.draw(this.#mover.pos(), AGENT_DIAMETER, AGENT_COLOR);
+        this.#circleDrawer.draw(this.#mover.pos, AGENT_DIAMETER, AGENT_COLOR);
     }
 
-    pos(): Vector {
-        return this.#mover.pos()
+    get pos(): Vector {
+        return this.#mover.pos
     }
 
     highlight() {
-        this.#circleDrawer.draw(this.#mover.pos(), AGENT_DIAMETER, AGENT_HIGHLIGHT_COLOR);
+        this.#circleDrawer.draw(this.#mover.pos, AGENT_DIAMETER, AGENT_HIGHLIGHT_COLOR);
     }
 
     #avoidBorders() {
-        const { x, y } = this.#mover.pos();
+        const { x, y } = this.#mover.pos;
 
         if (x <= AVOID_THRESHOLD) {
             this.#mover.applyForce(new Vector(1, 0))

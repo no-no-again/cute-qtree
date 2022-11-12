@@ -18,11 +18,15 @@ export class Mover implements WithPosition {
         this.#acc = this.#acc.mult(0);
     }
 
-    pos(): Vector {
+    set pos(newPos: Vector) {
+        this.#pos = newPos;
+    }
+
+    get pos(): Vector {
         return this.#pos;
     }
 
-    vel(): Vector {
+    get vel(): Vector {
         return this.#pos;
     }
 
