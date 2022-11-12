@@ -18,8 +18,8 @@ export class Mover implements WithPosition {
         this.#acc = this.#acc.mult(0);
     }
 
-    set pos(newPos: Vector) {
-        this.#pos = newPos;
+    set pos(p: Vector) {
+        this.#pos = p;
     }
 
     get pos(): Vector {
@@ -27,7 +27,11 @@ export class Mover implements WithPosition {
     }
 
     get vel(): Vector {
-        return this.#pos;
+        return this.#vel;
+    }
+
+    set vel(v: Vector) {
+        this.#vel = v;
     }
 
     applyForce(fv: Vector) {

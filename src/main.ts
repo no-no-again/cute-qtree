@@ -34,7 +34,11 @@ const sketch = (s: p5) => {
                 s.random(AVOID_THRESHOLD, WIDTH - AVOID_THRESHOLD),
                 s.random(AVOID_THRESHOLD, HEIGHT - AVOID_THRESHOLD)
             );
-            const vel = new Vector(s.random(-1, 1), s.random(-1, 1));
+            const vel = new Vector(
+                s.random(-1, 1),
+                s.random(-1, 1)
+            );
+
             const mover = new Mover(pos, vel);
             const agent = new Agent(mover, circleDrawer);
 
@@ -75,8 +79,6 @@ const sketch = (s: p5) => {
         }
 
         rectDrawer.draw(queryRect, RED)
-
-        // s.noLoop();
     }
 }
 

@@ -14,8 +14,8 @@ export class Agent implements WithPosition {
     }
 
     update() {
-        this.#avoidBorders();
         this.#mover.step();
+        this.#avoidBoundary();
     }
 
     draw() {
@@ -30,20 +30,25 @@ export class Agent implements WithPosition {
         this.#circleDrawer.draw(this.#mover.pos, AGENT_DIAMETER, AGENT_HIGHLIGHT_COLOR);
     }
 
-    #avoidBorders() {
+    #avoidBoundary() {
         const { x, y } = this.#mover.pos;
+        const { x: vx, y: vy } = this.#mover.vel;
 
         if (x <= AVOID_THRESHOLD) {
-            this.#mover.applyForce(new Vector(1, 0))
+            this.#mover.pos = new Vector(AVOID_THRESHOLD, y);
+            this.#mover.vel = new Vector(vx * -1, vy);
         }
         if (x >= WIDTH - AVOID_THRESHOLD) {
-            this.#mover.applyForce(new Vector(-1, 0))
+            this.#mover.pos = new Vector(WIDTH - AVOID_THRESHOLD, y);
+            this.#mover.vel = new Vector(vx * -1, vy);
         }
         if (y <= AVOID_THRESHOLD) {
-            this.#mover.applyForce(new Vector(0, 1))
+            this.#mover.pos = new Vector(x, AVOID_THRESHOLD);
+            this.#mover.vel = new Vector(vx, vy * -1);
         }
         if (y >= HEIGHT - AVOID_THRESHOLD) {
-            this.#mover.applyForce(new Vector(0, -1))
+            this.#mover.pos = new Vector(x, HEIGHT - AVOID_THRESHOLD);
+            this.#mover.vel = new Vector(vx, vy * -1);
         }
     }
 }
