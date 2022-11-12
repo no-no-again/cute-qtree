@@ -5,15 +5,19 @@ import { QTree } from './qtree';
 import { Rect } from './geometry';
 import { Mover } from './mover';
 import {
+    DEBUG,
     WIDTH,
     HEIGHT,
-    NAGENTS,
-    AVOID_THRESHOLD,
     BACKGROUND,
-    QTREE_CAP,
-    DEBUG,
+    NAGENTS,
     AGENT_RADIUS,
-    QUERY_RANGE_COLOR
+    AVOID_THRESHOLD,
+    QTREE_CAP,
+    QTREE_VISIBLE,
+    QUERY_RANGE_COLOR,
+    QUERY_RANGE_WIDTH,
+    QUERY_RANGE_HEIGHT,
+    QUERY_RANGE_VISIBLE,
 } from './config';
 
 const debugInfo = document.querySelector('.debug-info')!;
@@ -52,7 +56,12 @@ const sketch = (s: p5) => {
 
         // update phase
         qtree.clear();
-        const queryRect = new Rect(s.mouseX - 150, s.mouseY - 75, 300, 150);
+        const queryRect = new Rect(
+            s.mouseX - QUERY_RANGE_WIDTH / 2,
+            s.mouseY - QUERY_RANGE_HEIGHT / 2,
+            QUERY_RANGE_WIDTH,
+            QUERY_RANGE_HEIGHT
+        );
 
         for (const agent of agents) {
             agent.update();
@@ -63,7 +72,9 @@ const sketch = (s: p5) => {
 
         // draw phase
         if (DEBUG) {
-            // qtree.debug(s);
+            if (QTREE_VISIBLE) {
+                qtree.debug(s);
+            }
             const lines = [
                 `fps\t${s.frameRate().toFixed(2)}`,
                 `range\t${found.length.toString()}`,
@@ -80,7 +91,9 @@ const sketch = (s: p5) => {
             foundAgent.highlight();
         }
 
-        rectDrawer.draw(queryRect, QUERY_RANGE_COLOR)
+        if (QUERY_RANGE_VISIBLE) {
+            rectDrawer.draw(queryRect, QUERY_RANGE_COLOR)
+        }
     }
 }
 
