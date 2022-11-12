@@ -8,7 +8,7 @@ export class Mover {
     constructor(pos: Vector, vel: Vector) {
         this.#pos = pos;
         this.#vel = vel;
-        this.#acc = new Vector(1, 1);
+        this.#acc = new Vector(0, 0);
     }
 
     step() {
