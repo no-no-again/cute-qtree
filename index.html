@@ -1,11 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Qtree example</title>
-  </head>
-  <body>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Qtree example</title>
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                display: flex;
+                justify-content: center;
+                font-family: monospace;
+                background-color: black;
+                padding: 1rem;
+            }
+
+            canvas {
+                border: 1px solid white;
+            }
+
+            .debug-info {
+                color: white;
+                border: 1px solid white;
+                padding: 1rem;
+                margin-right: 1rem;
+                align-self: start;
+                width: 120px;
+                white-space: pre;
+            }
+
+            .debug-info:empty {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="debug-info"></div>
+        <script type="module" src="/src/main.ts"></script>
+    </body>
 </html>

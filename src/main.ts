@@ -12,11 +12,11 @@ import {
     BACKGROUND,
     QTREE_CAP,
     DEBUG,
-    AGENT_RADIUS
+    AGENT_RADIUS,
+    QUERY_RANGE_COLOR
 } from './config';
-import { RGB } from './types';
 
-const RED = [255, 0, 0] as RGB;
+const debugInfo = document.querySelector('.debug-info')!;
 
 const sketch = (s: p5) => {
     const agents: Agent[] = [];
@@ -64,11 +64,12 @@ const sketch = (s: p5) => {
         // draw phase
         if (DEBUG) {
             // qtree.debug(s);
-            s.noStroke();
-            s.textSize(16);
-            s.fill(255);
-            s.text(s.frameRate().toFixed(2), 10, 30);
-            s.text(found.length, 10, 50);
+            const lines = [
+                `fps\t${s.frameRate().toFixed(2)}`,
+                `range\t${found.length.toString()}`,
+            ]
+
+            debugInfo.textContent = lines.join('\n');
         }
 
         for (const agent of agents) {
@@ -79,7 +80,7 @@ const sketch = (s: p5) => {
             foundAgent.highlight();
         }
 
-        rectDrawer.draw(queryRect, RED)
+        rectDrawer.draw(queryRect, QUERY_RANGE_COLOR)
     }
 }
 
